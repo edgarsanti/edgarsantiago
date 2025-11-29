@@ -152,6 +152,28 @@
         box-shadow 0.1s ease;
     }
 
+    .unit-link:hover {
+      background: #ffffff;
+      border-color: var(--accent);
+      transform: translateY(-1px);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+    }
+
+    .unit-text {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .unit-title {
+      font-weight: 600;
+    }
+
+    .unit-desc {
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
     .unit-link span.tag {
       font-size: 0.75rem;
       padding: 2px 8px;
@@ -159,13 +181,7 @@
       background: var(--accent-soft);
       color: var(--accent);
       font-weight: 500;
-    }
-
-    .unit-link:hover {
-      background: #ffffff;
-      border-color: var(--accent);
-      transform: translateY(-1px);
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+      white-space: nowrap;
     }
 
     aside {
@@ -195,6 +211,25 @@
 
     .toc-list a:hover {
       color: var(--accent);
+    }
+
+    .side-card {
+      background: #ffffff;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      padding: 10px 12px;
+      margin-top: 12px;
+      font-size: 0.85rem;
+      line-height: 1.4;
+    }
+
+    .side-card a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    .side-card a:hover {
+      text-decoration: underline;
     }
 
     footer {
@@ -247,19 +282,28 @@
         <ul class="unit-list">
           <li>
             <a class="unit-link" href="unidad2.html" target="_blank" rel="noopener">
-              <span>Unidad 2</span>
+              <div class="unit-text">
+                <span class="unit-title">Unidad 2</span>
+                <span class="unit-desc">Introducción al análisis de complejidad temporal y notación asintótica.</span>
+              </div>
               <span class="tag">Notebook</span>
             </a>
           </li>
           <li>
             <a class="unit-link" href="unidad3.html" target="_blank" rel="noopener">
-              <span>Unidad 3</span>
+              <div class="unit-text">
+                <span class="unit-title">Unidad 3</span>
+                <span class="unit-desc">Estructuras de datos y algoritmos de búsqueda sobre arreglos ordenados.</span>
+              </div>
               <span class="tag">Notebook</span>
             </a>
           </li>
           <li>
             <a class="unit-link" href="unidad4.html" target="_blank" rel="noopener">
-              <span>Unidad 4</span>
+              <div class="unit-text">
+                <span class="unit-title">Unidad 4</span>
+                <span class="unit-desc">Análisis experimental y comparación empírica de algoritmos.</span>
+              </div>
               <span class="tag">Notebook</span>
             </a>
           </li>
@@ -274,6 +318,14 @@
             <li><a href="#sobre-mi">Reportes del curso</a></li>
             <li><a href="#unidades">Unidades publicadas</a></li>
           </ul>
+        </div>
+
+        <div class="side-card">
+          <strong>Repositorio en GitHub</strong><br />
+          Código fuente y notebooks disponibles en:<br />
+          <a href="https://github.com/edgarsanti/edgarsantiago" target="_blank" rel="noopener">
+            github.com/edgarsanti/edgarsantiago
+          </a>
         </div>
       </aside>
     </div>
