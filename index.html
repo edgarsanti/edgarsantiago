@@ -131,7 +131,7 @@
     }
 
     .unit-list li + li {
-      margin-top: 8px;
+      margin-top: 10px;
     }
 
     .unit-link {
@@ -172,6 +172,13 @@
     .unit-desc {
       font-size: 0.78rem;
       color: var(--muted);
+    }
+
+    .unit-summary {
+      margin: 4px 4px 0 4px;
+      font-size: 0.8rem;
+      color: var(--muted);
+      line-height: 1.4;
     }
 
     .unit-link span.tag {
@@ -284,30 +291,48 @@
             <a class="unit-link" href="unidad2.html" target="_blank" rel="noopener">
               <div class="unit-text">
                 <span class="unit-title">Unidad 2</span>
-                <span class="unit-desc">Introducción al análisis de complejidad temporal y notación asintótica.</span>
+                <span class="unit-desc">Complejidad temporal y notación asintótica.</span>
               </div>
               <span class="tag">Notebook</span>
             </a>
+            <p class="unit-summary">
+              Se introduce el marco formal para analizar algoritmos: tiempo de ejecución como función del tamaño de entrada,
+              notaciones O, Ω y Θ, y la comparación de órdenes de crecimiento mediante ejemplos numéricos. También se discuten
+              los casos mejor, peor y promedio en algoritmos sencillos como la búsqueda lineal.
+            </p>
           </li>
+
           <li>
             <a class="unit-link" href="unidad3.html" target="_blank" rel="noopener">
               <div class="unit-text">
                 <span class="unit-title">Unidad 3</span>
-                <span class="unit-desc">Estructuras de datos y algoritmos de búsqueda sobre arreglos ordenados.</span>
+                <span class="unit-desc">Estructuras y algoritmos de búsqueda.</span>
               </div>
               <span class="tag">Notebook</span>
             </a>
+            <p class="unit-summary">
+              El reporte plantea el problema de búsqueda en arreglos estáticos ordenados y presenta distintas variantes de
+              búsqueda binaria (B0, B1, B2) y estructuras como <em>SkipList</em>. Se describen sus ideas básicas, se analiza
+              el número de comparaciones y se muestra cómo cambia el costo según la posición del elemento buscado.
+            </p>
           </li>
+
           <li>
             <a class="unit-link" href="unidad4.html" target="_blank" rel="noopener">
               <div class="unit-text">
                 <span class="unit-title">Unidad 4</span>
-                <span class="unit-desc">Análisis experimental y comparación empírica de algoritmos.</span>
+                <span class="unit-desc">Análisis experimental de algoritmos.</span>
               </div>
               <span class="tag">Notebook</span>
             </a>
+            <p class="unit-summary">
+              Se diseña y ejecuta un experimento computacional en Python para comparar empíricamente las estrategias de búsqueda
+              estudiadas. Se generan diferentes familias de listas y consultas, se miden tiempos de ejecución y comparaciones,
+              se resumen los resultados con tablas y boxplots y se discuten conclusiones prácticas sobre qué algoritmo conviene
+              usar en distintos escenarios.
+            </p>
           </li>
-          <!-- Cuando tengas más unidades, agrega más <li> aquí -->
+          <!-- Cuando tengas más unidades, agrega más <li> con su resumen -->
         </ul>
       </section>
 
