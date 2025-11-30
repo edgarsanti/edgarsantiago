@@ -33,9 +33,9 @@
     }
 
     .container {
-      max-width: 1360px;  /* más ancho para que crezca la columna derecha */
+      max-width: 1360px;
       margin: 0 auto;
-      padding: 0 16px;
+      padding: 0 8px; /* menos margen lateral para aprovechar más ancho */
     }
 
     header {
@@ -89,8 +89,8 @@
 
     .layout {
       display: grid;
-      grid-template-columns: 340px minmax(0, 1fr); /* izquierda más delgada, derecha más grande */
-      gap: 32px;
+      grid-template-columns: 300px minmax(0, 1fr); /* izquierda más delgada, derecha más ancha */
+      gap: 24px; /* un poco menos espacio entre columnas */
     }
 
     @keyframes fadeInUp {
