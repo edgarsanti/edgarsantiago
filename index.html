@@ -29,7 +29,7 @@
     }
 
     .container {
-      max-width: 1280px;  /* <- más ancho para aprovechar la pantalla */
+      max-width: 1280px;
       margin: 0 auto;
       padding: 0 16px;
     }
@@ -85,7 +85,7 @@
 
     .layout {
       display: grid;
-      grid-template-columns: 420px minmax(0, 1fr); /* <- izquierda fija, derecha se expande */
+      grid-template-columns: 420px minmax(0, 1fr);
       gap: 32px;
     }
 
@@ -240,6 +240,33 @@
       box-shadow: 0 0 0 1px rgba(168, 85, 247, 0.16);
     }
 
+    /* Panel derecha */
+    .info-card {
+      background: #ffffff;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      padding: 14px 16px 16px;
+      margin-bottom: 16px;
+      box-shadow: 0 2px 8px rgba(148, 163, 184, 0.25);
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    .info-card h3 {
+      margin: 0 0 6px;
+      font-size: 1rem;
+      color: var(--text);
+    }
+
+    .info-card ul {
+      margin: 8px 0 0;
+      padding-left: 18px;
+    }
+
+    .info-card li + li {
+      margin-top: 4px;
+    }
+
     .detail-card {
       background: #ffffff;
       border-radius: 12px;
@@ -283,46 +310,7 @@
       border: none;
       border-radius: 8px;
       background: #f9fafb;
-      min-height: 75vh; /* un poquito más alto */
-    }
-
-    aside {
-      font-size: 0.85rem;
-      color: var(--muted);
-    }
-
-    .toc-title {
-      font-weight: 600;
-      margin-bottom: 6px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .toc-title::before {
-      content: "●";
-      font-size: 0.65rem;
-      color: var(--accent-2);
-    }
-
-    .toc-list {
-      list-style: none;
-      padding: 0;
-      margin: 0 0 16px;
-    }
-
-    .toc-list li + li {
-      margin-top: 4px;
-    }
-
-    .toc-list a {
-      text-decoration: none;
-      color: var(--muted);
-      transition: color 0.15s ease;
-    }
-
-    .toc-list a:hover {
-      color: var(--accent);
+      min-height: 75vh;
     }
 
     footer {
@@ -428,21 +416,28 @@
 
       <!-- DERECHA -->
       <aside>
-        <div class="detail-card">
+        <!-- Mensaje inicial / índice -->
+        <div class="info-card" id="info-card">
+          <h3>Contenido de los reportes</h3>
+          <p>
+            Selecciona alguna de las unidades de la lista para visualizar el notebook completo.
+            Mientras tanto, aquí tienes un breve resumen de los temas:
+          </p>
+          <ul>
+            <li><strong>Unidad 2</strong>: complejidad temporal, notación asintótica y análisis de estructuras de datos.</li>
+            <li><strong>Unidad 3</strong>: comparación experimental de algoritmos clásicos de ordenamiento.</li>
+            <li><strong>Unidad 4</strong>: experimentos con algoritmos de búsqueda por comparación sobre arreglos ordenados.</li>
+          </ul>
+        </div>
+
+        <!-- Notebook embebido (solo se muestra después de hacer clic) -->
+        <div class="detail-card" id="notebook-card" style="display:none;">
           <div class="detail-actions">
             <a id="detail-link" class="detail-link" href="#" target="_blank" rel="noopener">
               Abrir notebook en otra pestaña
             </a>
           </div>
           <iframe id="notebook-frame" src="" title="Notebook del curso"></iframe>
-        </div>
-
-        <div>
-          <div class="toc-title">En esta página</div>
-          <ul class="toc-list">
-            <li><a href="#sobre-mi">Reportes del curso</a></li>
-            <li><a href="#unidades">Unidades publicadas</a></li>
-          </ul>
         </div>
       </aside>
     </div>
@@ -458,6 +453,8 @@
     document.addEventListener("DOMContentLoaded", function () {
       const detailLink = document.getElementById("detail-link");
       const notebookFrame = document.getElementById("notebook-frame");
+      const notebookCard = document.getElementById("notebook-card");
+      const infoCard = document.getElementById("info-card");
       const unitLinks = document.querySelectorAll(".unit-link");
 
       function setActive(link) {
@@ -467,7 +464,7 @@
 
       unitLinks.forEach((link) => {
         link.addEventListener("click", function (e) {
-          // Si usa Ctrl/Cmd/Shift/Alt, que se abra normal en otra pestaña
+          // Si usa Ctrl/Cmd/Shift/Alt, que se abra normal en nueva pestaña
           if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) {
             return;
           }
@@ -479,13 +476,17 @@
           notebookFrame.src = href;
 
           setActive(link);
+
+          // Mostrar notebook y ocultar tarjeta de información
+          notebookCard.style.display = "block";
+          if (infoCard) {
+            infoCard.style.display = "none";
+          }
         });
       });
 
-      // Seleccionar la primera unidad al cargar
-      if (unitLinks.length > 0) {
-        unitLinks[0].click();
-      }
+      // Nota: ya NO seleccionamos ninguna unidad al cargar.
+      // El usuario debe hacer clic para que aparezca el reporte.
     });
   </script>
 </body>
