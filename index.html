@@ -220,7 +220,7 @@
     }
 
     .unit-summary {
-      display: none; /* Se usa solo para el panel derecho */
+      display: none; /* solo para JS si lo quisieras después */
     }
 
     .unit-link span.tag {
@@ -240,42 +240,21 @@
       box-shadow: 0 0 0 1px rgba(168, 85, 247, 0.16);
     }
 
-    /* Panel detalle derecha + visor */
+    /* Panel derecha: solo botón + iframe */
     .detail-card {
       background: #ffffff;
       border-radius: 12px;
       border: 1px solid var(--border);
-      padding: 14px 16px 16px;
+      padding: 12px 14px 14px;
       margin-bottom: 16px;
       box-shadow: 0 3px 10px rgba(148, 163, 184, 0.35);
       animation: fadeInUp 0.35s ease-out;
     }
 
-    .detail-title {
-      margin: 0 0 4px;
-      font-size: 1.15rem;
-    }
-
-    .detail-desc {
-      margin: 0 0 6px;
-      font-size: 0.85rem;
-      color: var(--muted);
-    }
-
-    .detail-summary {
-      margin: 4px 0 10px;
-      font-size: 0.9rem;
-      color: var(--muted);
-      line-height: 1.5;
-    }
-
     .detail-actions {
       display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
+      justify-content: flex-start;
       margin-bottom: 8px;
-      flex-wrap: wrap;
     }
 
     .detail-link {
@@ -300,17 +279,12 @@
       opacity: 0.95;
     }
 
-    .detail-hint {
-      font-size: 0.75rem;
-      color: var(--muted);
-    }
-
     #notebook-frame {
       width: 100%;
       border: none;
       border-radius: 8px;
       background: #f9fafb;
-      min-height: 65vh;
+      min-height: 70vh;
     }
 
     aside {
@@ -455,20 +429,12 @@
 
       <!-- DERECHA -->
       <aside>
-        <div class="detail-card" id="unit-detail">
-          <h2 class="detail-title" id="detail-title">Selecciona una unidad</h2>
-          <p class="detail-desc" id="detail-desc"></p>
-          <p class="detail-summary" id="detail-summary">
-            Haz clic en alguna de las unidades de la izquierda para ver aquí la descripción detallada y el notebook completo.
-          </p>
-
+        <div class="detail-card">
           <div class="detail-actions">
             <a id="detail-link" class="detail-link" href="#" target="_blank" rel="noopener">
               Abrir notebook en otra pestaña
             </a>
-            <span class="detail-hint">También puedes navegar el notebook directamente aquí abajo.</span>
           </div>
-
           <iframe id="notebook-frame" src="" title="Notebook del curso"></iframe>
         </div>
 
@@ -491,9 +457,6 @@
 
   <script>
     document.addEventListener("DOMContentLoaded", function () {
-      const detailTitle = document.getElementById("detail-title");
-      const detailDesc = document.getElementById("detail-desc");
-      const detailSummary = document.getElementById("detail-summary");
       const detailLink = document.getElementById("detail-link");
       const notebookFrame = document.getElementById("notebook-frame");
       const unitLinks = document.querySelectorAll(".unit-link");
@@ -505,22 +468,14 @@
 
       unitLinks.forEach((link) => {
         link.addEventListener("click", function (e) {
-          // Si usa Ctrl/Cmd/Shift/Alt, dejamos que abra normal en nueva pestaña
+          // Si usa Ctrl/Cmd/Shift/Alt, que se abra normal en otra pestaña
           if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) {
             return;
           }
 
           e.preventDefault();
 
-          const li = link.closest("li");
-          const titleEl = li.querySelector(".unit-title");
-          const descEl = li.querySelector(".unit-desc");
-          const summaryEl = li.querySelector(".unit-summary");
           const href = link.getAttribute("href");
-
-          detailTitle.textContent = titleEl ? titleEl.textContent : "";
-          detailDesc.textContent = descEl ? descEl.textContent : "";
-          detailSummary.innerHTML = summaryEl ? summaryEl.innerHTML : "";
           detailLink.href = href;
           notebookFrame.src = href;
 
@@ -528,7 +483,7 @@
         });
       });
 
-      // Inicializar con la primera unidad seleccionada
+      // Seleccionar la primera unidad al cargar
       if (unitLinks.length > 0) {
         unitLinks[0].click();
       }
