@@ -33,7 +33,7 @@
     }
 
     .container {
-      max-width: 1280px;
+      max-width: 1360px;  /* más ancho para que crezca la columna derecha */
       margin: 0 auto;
       padding: 0 16px;
     }
@@ -89,17 +89,8 @@
 
     .layout {
       display: grid;
-      grid-template-columns: 420px minmax(0, 1fr);
+      grid-template-columns: 340px minmax(0, 1fr); /* izquierda más delgada, derecha más grande */
       gap: 32px;
-    }
-
-    @media (max-width: 900px) {
-      .layout {
-        grid-template-columns: minmax(0, 1fr);
-      }
-      nav a {
-        margin-left: 8px;
-      }
     }
 
     @keyframes fadeInUp {
@@ -110,6 +101,15 @@
       to {
         opacity: 1;
         transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 900px) {
+      .layout {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      nav a {
+        margin-left: 8px;
       }
     }
 
