@@ -85,7 +85,7 @@
 
     .layout {
       display: grid;
-      grid-template-columns: minmax(0, 3fr) minmax(0, 1.2fr);
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1.8fr); /* izquierda más compacta, derecha más grande */
       gap: 32px;
     }
 
@@ -188,6 +188,7 @@
         border-color 0.15s ease,
         transform 0.1s ease,
         box-shadow 0.1s ease;
+      cursor: pointer;
     }
 
     .unit-link:hover {
@@ -195,6 +196,12 @@
       border-color: var(--accent);
       transform: translateY(-1px);
       box-shadow: 0 4px 10px rgba(148, 163, 184, 0.5);
+    }
+
+    .unit-link.active {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.35);
+      background: linear-gradient(90deg, #eff6ff, #f3e8ff);
     }
 
     .unit-text {
@@ -212,11 +219,9 @@
       color: var(--muted);
     }
 
+    /* Resúmenes: solo para JS (no se muestran en la columna izquierda) */
     .unit-summary {
-      margin: 4px 4px 0 4px;
-      font-size: 0.8rem;
-      color: var(--muted);
-      line-height: 1.4;
+      display: none;
     }
 
     .unit-link span.tag {
@@ -230,11 +235,61 @@
       box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.12);
     }
 
-    /* Badge distinto en la segunda unidad para más vida */
     .unit-list li:nth-child(2) .unit-link span.tag {
       background: var(--accent-2-soft);
       color: var(--accent-2);
       box-shadow: 0 0 0 1px rgba(168, 85, 247, 0.16);
+    }
+
+    /* Panel de detalle a la derecha */
+    .detail-card {
+      background: #ffffff;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      padding: 14px 16px 16px;
+      margin-bottom: 16px;
+      box-shadow: 0 3px 10px rgba(148, 163, 184, 0.35);
+      animation: fadeInUp 0.35s ease-out;
+    }
+
+    .detail-title {
+      margin: 0 0 4px;
+      font-size: 1.15rem;
+    }
+
+    .detail-desc {
+      margin: 0 0 6px;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    .detail-summary {
+      margin: 4px 0 10px;
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .detail-link {
+      display: inline-block;
+      font-size: 0.85rem;
+      text-decoration: none;
+      padding: 6px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--accent);
+      color: #ffffff;
+      background: linear-gradient(90deg, #2563eb, #4f46e5);
+      box-shadow: 0 2px 6px rgba(37, 99, 235, 0.45);
+      transition:
+        transform 0.1s ease,
+        box-shadow 0.1s ease,
+        opacity 0.1s ease;
+    }
+
+    .detail-link:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 3px 8px rgba(37, 99, 235, 0.6);
+      opacity: 0.95;
     }
 
     aside {
@@ -331,6 +386,7 @@
 
   <main class="container">
     <div class="layout">
+      <!-- COLUMNA IZQUIERDA -->
       <section id="sobre-mi">
         <h1>Reportes del curso</h1>
 
@@ -404,7 +460,20 @@
         </ul>
       </section>
 
+      <!-- COLUMNA DERECHA -->
       <aside>
+        <!-- Panel dinámico de contenido -->
+        <div class="detail-card" id="unit-detail">
+          <h2 class="detail-title" id="detail-title">Selecciona una unidad</h2>
+          <p class="detail-desc" id="detail-desc"></p>
+          <p class="detail-summary" id="detail-summary">
+            Haz clic en alguna de las unidades de la izquierda para ver aquí la descripción detallada y acceder al notebook correspondiente.
+          </p>
+          <a id="detail-link" class="detail-link" href="#" target="_blank" rel="noopener">
+            Abrir notebook
+          </a>
+        </div>
+
         <div>
           <div class="toc-title">En esta página</div>
           <ul class="toc-list">
@@ -429,5 +498,49 @@
       © 2025 · edgarsanti · GitHub Pages
     </div>
   </footer>
+
+  <script>
+    // Hace que al dar clic en una unidad, se actualice el contenido del panel derecho
+    document.addEventListener("DOMContentLoaded", function () {
+      const detailTitle = document.getElementById("detail-title");
+      const detailDesc = document.getElementById("detail-desc");
+      const detailSummary = document.getElementById("detail-summary");
+      const detailLink = document.getElementById("detail-link");
+      const unitLinks = document.querySelectorAll(".unit-link");
+
+      function setActive(link) {
+        unitLinks.forEach((l) => l.classList.remove("active"));
+        link.classList.add("active");
+      }
+
+      unitLinks.forEach((link) => {
+        link.addEventListener("click", function (e) {
+          // Si el usuario presiona Ctrl/Cmd, dejamos que abra en nueva pestaña normal
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) {
+            return;
+          }
+
+          e.preventDefault();
+
+          const li = link.closest("li");
+          const titleEl = li.querySelector(".unit-title");
+          const descEl = li.querySelector(".unit-desc");
+          const summaryEl = li.querySelector(".unit-summary");
+
+          detailTitle.textContent = titleEl ? titleEl.textContent : "";
+          detailDesc.textContent = descEl ? descEl.textContent : "";
+          detailSummary.innerHTML = summaryEl ? summaryEl.innerHTML : "";
+          detailLink.href = link.getAttribute("href");
+
+          setActive(link);
+        });
+      });
+
+      // Inicializar con la primera unidad seleccionada
+      if (unitLinks.length > 0) {
+        unitLinks[0].click();
+      }
+    });
+  </script>
 </body>
 </html>
