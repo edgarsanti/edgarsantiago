@@ -21,7 +21,7 @@
     }
 
     html {
-      scroll-behavior: smooth; /* scroll suave a las secciones */
+      scroll-behavior: smooth;
     }
 
     body {
@@ -168,10 +168,11 @@
       animation-fill-mode: both;
     }
 
-    .unit-list li:nth-child(1) { animation-delay: 0.05s; }
-    .unit-list li:nth-child(2) { animation-delay: 0.1s; }
-    .unit-list li:nth-child(3) { animation-delay: 0.15s; }
-    .unit-list li:nth-child(4) { animation-delay: 0.2s; }
+    .unit-list li:nth-child(1) { animation-delay: 0.03s; }
+    .unit-list li:nth-child(2) { animation-delay: 0.06s; }
+    .unit-list li:nth-child(3) { animation-delay: 0.09s; }
+    .unit-list li:nth-child(4) { animation-delay: 0.12s; }
+    .unit-list li:nth-child(5) { animation-delay: 0.15s; }
 
     .unit-list li + li {
       margin-top: 10px;
@@ -384,6 +385,22 @@
         <h2 id="unidades">Unidades publicadas</h2>
 
         <ul class="unit-list">
+          <!-- Unidad 1 -->
+          <li>
+            <a class="unit-link" data-unit="u1" href="unidad1.html" target="_blank" rel="noopener">
+              <div class="unit-text">
+                <span class="unit-title">Unidad 1: Experimentos y análisis.</span>
+                <span class="unit-desc">Introducción al diseño de experimentos computacionales y estructura general de los reportes.</span>
+              </div>
+              <span class="tag">Notebook</span>
+            </a>
+            <p class="unit-summary">
+              Presenta las bases para plantear y documentar experimentos computacionales en el contexto de análisis de algoritmos:
+              objetivos, variables de interés, escenarios de prueba y uso del entorno de notebooks como herramienta para reportar resultados.
+            </p>
+          </li>
+
+          <!-- Unidad 2 -->
           <li>
             <a class="unit-link" data-unit="u2" href="unidad2.html" target="_blank" rel="noopener">
               <div class="unit-text">
@@ -400,6 +417,7 @@
             </p>
           </li>
 
+          <!-- Unidad 3 -->
           <li>
             <a class="unit-link" data-unit="u3" href="unidad3.html" target="_blank" rel="noopener">
               <div class="unit-text">
@@ -416,6 +434,7 @@
             </p>
           </li>
 
+          <!-- Unidad 4 -->
           <li>
             <a class="unit-link" data-unit="u4" href="unidad4.html" target="_blank" rel="noopener">
               <div class="unit-text">
@@ -432,12 +451,12 @@
             </p>
           </li>
 
-          <!-- Placeholder Unidad 5 -->
+          <!-- Unidad 5 (próximamente) -->
           <li>
             <div class="unit-link unit-link-disabled">
               <div class="unit-text">
-                <span class="unit-title">Unidad 5: (en preparación)</span>
-                <span class="unit-desc">Contenido por publicar.</span>
+                <span class="unit-title">Unidad 5: Experimentos y análisis de algoritmos de intersección de conjuntos.</span>
+                <span class="unit-desc">Diseño y comparación de estrategias para resolver el problema de intersección de conjuntos.</span>
               </div>
               <span class="tag">Próximamente</span>
             </div>
@@ -455,9 +474,11 @@
             Mientras tanto, aquí tienes un breve resumen de los temas:
           </p>
           <ul>
+            <li><strong>Unidad 1</strong>: planteamiento general de experimentos y estructura de los reportes.</li>
             <li><strong>Unidad 2</strong>: complejidad temporal, notación asintótica y análisis de estructuras de datos.</li>
             <li><strong>Unidad 3</strong>: comparación experimental de algoritmos clásicos de ordenamiento.</li>
             <li><strong>Unidad 4</strong>: experimentos con algoritmos de búsqueda por comparación sobre arreglos ordenados.</li>
+            <li><strong>Unidad 5</strong>: algoritmos de intersección de conjuntos (en preparación).</li>
           </ul>
         </div>
 
@@ -494,7 +515,7 @@
       const notebookCard = document.getElementById("notebook-card");
       const infoCard = document.getElementById("info-card");
 
-      // Solo los enlaces <a>, el placeholder de la U5 es un <div>
+      // Solo los enlaces <a>, la unidad 5 es un <div>
       const unitLinks = document.querySelectorAll("a.unit-link");
 
       function setActive(link) {
@@ -517,7 +538,7 @@
           infoCard.style.display = "none";
         }
 
-        // Actualizar el hash de la URL (u2, u3, u4...)
+        // Actualizar el hash de la URL (u1, u2, u3, u4)
         if (unitId) {
           window.history.replaceState(null, "", "#" + unitId);
         }
@@ -535,17 +556,16 @@
         });
       });
 
-      // Deep link: si viene con #u2, #u3, #u4, abrir esa unidad
+      // Deep link: si viene con #u1, #u2, #u3, #u4, abrir esa unidad
       const hash = window.location.hash.slice(1); // sin '#'
       if (hash) {
         const link = document.querySelector(`a.unit-link[data-unit="${hash}"]`);
         if (link) {
           showUnit(link);
-          // Opcional: centrar la unidad seleccionada en la vista
           link.scrollIntoView({ behavior: "smooth", block: "center" });
         }
       }
-      // Si no hay hash, no seleccionamos nada: se queda el índice inicial.
+      // Si no hay hash, se queda el índice inicial.
     });
   </script>
 </body>
