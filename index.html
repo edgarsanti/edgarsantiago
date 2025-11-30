@@ -220,7 +220,7 @@
     }
 
     .unit-summary {
-      display: none; /* se usa solo para el panel derecho */
+      display: none; /* Se usa solo para el panel derecho */
     }
 
     .unit-link span.tag {
@@ -240,7 +240,7 @@
       box-shadow: 0 0 0 1px rgba(168, 85, 247, 0.16);
     }
 
-    /* Panel detalle derecha */
+    /* Panel detalle derecha + visor */
     .detail-card {
       background: #ffffff;
       border-radius: 12px;
@@ -269,6 +269,15 @@
       line-height: 1.5;
     }
 
+    .detail-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 8px;
+      flex-wrap: wrap;
+    }
+
     .detail-link {
       display: inline-block;
       font-size: 0.85rem;
@@ -289,6 +298,19 @@
       transform: translateY(-1px);
       box-shadow: 0 3px 8px rgba(37, 99, 235, 0.6);
       opacity: 0.95;
+    }
+
+    .detail-hint {
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    #notebook-frame {
+      width: 100%;
+      border: none;
+      border-radius: 8px;
+      background: #f9fafb;
+      min-height: 65vh;
     }
 
     aside {
@@ -437,11 +459,17 @@
           <h2 class="detail-title" id="detail-title">Selecciona una unidad</h2>
           <p class="detail-desc" id="detail-desc"></p>
           <p class="detail-summary" id="detail-summary">
-            Haz clic en alguna de las unidades de la izquierda para ver aquí la descripción detallada y acceder al notebook correspondiente.
+            Haz clic en alguna de las unidades de la izquierda para ver aquí la descripción detallada y el notebook completo.
           </p>
-          <a id="detail-link" class="detail-link" href="#" target="_blank" rel="noopener">
-            Abrir notebook
-          </a>
+
+          <div class="detail-actions">
+            <a id="detail-link" class="detail-link" href="#" target="_blank" rel="noopener">
+              Abrir notebook en otra pestaña
+            </a>
+            <span class="detail-hint">También puedes navegar el notebook directamente aquí abajo.</span>
+          </div>
+
+          <iframe id="notebook-frame" src="" title="Notebook del curso"></iframe>
         </div>
 
         <div>
@@ -467,6 +495,7 @@
       const detailDesc = document.getElementById("detail-desc");
       const detailSummary = document.getElementById("detail-summary");
       const detailLink = document.getElementById("detail-link");
+      const notebookFrame = document.getElementById("notebook-frame");
       const unitLinks = document.querySelectorAll(".unit-link");
 
       function setActive(link) {
@@ -476,7 +505,7 @@
 
       unitLinks.forEach((link) => {
         link.addEventListener("click", function (e) {
-          // Si usa Ctrl/Cmd/Shift, que se abra normal en nueva pestaña
+          // Si usa Ctrl/Cmd/Shift/Alt, dejamos que abra normal en nueva pestaña
           if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) {
             return;
           }
@@ -487,16 +516,19 @@
           const titleEl = li.querySelector(".unit-title");
           const descEl = li.querySelector(".unit-desc");
           const summaryEl = li.querySelector(".unit-summary");
+          const href = link.getAttribute("href");
 
           detailTitle.textContent = titleEl ? titleEl.textContent : "";
           detailDesc.textContent = descEl ? descEl.textContent : "";
           detailSummary.innerHTML = summaryEl ? summaryEl.innerHTML : "";
-          detailLink.href = link.getAttribute("href");
+          detailLink.href = href;
+          notebookFrame.src = href;
 
           setActive(link);
         });
       });
 
+      // Inicializar con la primera unidad seleccionada
       if (unitLinks.length > 0) {
         unitLinks[0].click();
       }
