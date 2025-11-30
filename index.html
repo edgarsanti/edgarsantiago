@@ -29,7 +29,7 @@
     }
 
     .container {
-      max-width: 960px;
+      max-width: 1280px;  /* <- más ancho para aprovechar la pantalla */
       margin: 0 auto;
       padding: 0 16px;
     }
@@ -85,11 +85,11 @@
 
     .layout {
       display: grid;
-      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1.8fr);
+      grid-template-columns: 420px minmax(0, 1fr); /* <- izquierda fija, derecha se expande */
       gap: 32px;
     }
 
-    @media (max-width: 768px) {
+    @media (max-width: 900px) {
       .layout {
         grid-template-columns: minmax(0, 1fr);
       }
@@ -220,7 +220,7 @@
     }
 
     .unit-summary {
-      display: none; /* solo para JS si lo quisieras después */
+      display: none;
     }
 
     .unit-link span.tag {
@@ -240,7 +240,6 @@
       box-shadow: 0 0 0 1px rgba(168, 85, 247, 0.16);
     }
 
-    /* Panel derecha: solo botón + iframe */
     .detail-card {
       background: #ffffff;
       border-radius: 12px;
@@ -284,7 +283,7 @@
       border: none;
       border-radius: 8px;
       background: #f9fafb;
-      min-height: 70vh;
+      min-height: 75vh; /* un poquito más alto */
     }
 
     aside {
