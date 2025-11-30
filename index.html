@@ -330,7 +330,7 @@
       border: none;
       border-radius: 8px;
       background: #f9fafb;
-      min-height: 75vh;
+      min-height: 90vh; /* más alto para ocupar casi toda la pantalla */
     }
 
     footer {
@@ -394,10 +394,6 @@
               </div>
               <span class="tag">Notebook</span>
             </a>
-            <p class="unit-summary">
-              Presenta las bases para plantear y documentar experimentos computacionales en el contexto de análisis de algoritmos:
-              objetivos, variables de interés, escenarios de prueba y uso del entorno de notebooks como herramienta para reportar resultados.
-            </p>
           </li>
 
           <!-- Unidad 2 -->
@@ -409,12 +405,6 @@
               </div>
               <span class="tag">Notebook</span>
             </a>
-            <p class="unit-summary">
-              Se introduce el marco formal para analizar algoritmos: tiempo de ejecución como función del tamaño de entrada,
-              notaciones O, Ω y Θ, y la comparación de órdenes de crecimiento mediante ejemplos numéricos. También se discuten
-              los casos mejor, peor y promedio en algoritmos sencillos, preparando el terreno para analizar estructuras y
-              operaciones más complejas.
-            </p>
           </li>
 
           <!-- Unidad 3 -->
@@ -426,12 +416,6 @@
               </div>
               <span class="tag">Notebook</span>
             </a>
-            <p class="unit-summary">
-              El reporte estudia distintos algoritmos de ordenamiento (por ejemplo, enfoques cuadráticos frente a métodos más eficientes)
-              y compara su comportamiento en términos de tiempo de ejecución y número de operaciones. Se ilustra cómo la complejidad
-              teórica se refleja en los tiempos medidos para distintos tamaños de entrada y se discuten los escenarios en los que
-              cada algoritmo resulta más conveniente.
-            </p>
           </li>
 
           <!-- Unidad 4 -->
@@ -443,12 +427,6 @@
               </div>
               <span class="tag">Notebook</span>
             </a>
-            <p class="unit-summary">
-              Se diseña y ejecuta un experimento computacional en Python para comparar empíricamente distintas estrategias de
-              búsqueda por comparación sobre arreglos estáticos ordenados. Se estudian variantes de búsqueda binaria y estructuras
-              como <em>SkipList</em>, midiendo tiempos de ejecución y número de comparaciones bajo diferentes patrones de consultas.
-              A partir de los resultados, se plantean conclusiones prácticas sobre qué enfoque conviene usar en distintos escenarios.
-            </p>
           </li>
 
           <!-- Unidad 5 (próximamente) -->
@@ -482,7 +460,7 @@
           </ul>
         </div>
 
-        <!-- Notebook embebido (solo se muestra después de hacer clic) -->
+        <!-- Notebook embebido -->
         <div class="detail-card" id="notebook-card" style="display:none;">
           <div class="detail-actions">
             <a
@@ -515,7 +493,6 @@
       const notebookCard = document.getElementById("notebook-card");
       const infoCard = document.getElementById("info-card");
 
-      // Solo los enlaces <a>, la unidad 5 es un <div>
       const unitLinks = document.querySelectorAll("a.unit-link");
 
       function setActive(link) {
@@ -538,7 +515,6 @@
           infoCard.style.display = "none";
         }
 
-        // Actualizar el hash de la URL (u1, u2, u3, u4)
         if (unitId) {
           window.history.replaceState(null, "", "#" + unitId);
         }
@@ -546,18 +522,15 @@
 
       unitLinks.forEach((link) => {
         link.addEventListener("click", function (e) {
-          // Si usa Ctrl/Cmd/Shift/Alt, que se abra normal en nueva pestaña
           if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) {
             return;
           }
-
           e.preventDefault();
           showUnit(link);
         });
       });
 
-      // Deep link: si viene con #u1, #u2, #u3, #u4, abrir esa unidad
-      const hash = window.location.hash.slice(1); // sin '#'
+      const hash = window.location.hash.slice(1);
       if (hash) {
         const link = document.querySelector(`a.unit-link[data-unit="${hash}"]`);
         if (link) {
@@ -565,7 +538,6 @@
           link.scrollIntoView({ behavior: "smooth", block: "center" });
         }
       }
-      // Si no hay hash, se queda el índice inicial.
     });
   </script>
 </body>
