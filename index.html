@@ -20,6 +20,10 @@
       box-sizing: border-box;
     }
 
+    html {
+      scroll-behavior: smooth; /* scroll suave a las secciones */
+    }
+
     body {
       margin: 0;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
@@ -167,6 +171,7 @@
     .unit-list li:nth-child(1) { animation-delay: 0.05s; }
     .unit-list li:nth-child(2) { animation-delay: 0.1s; }
     .unit-list li:nth-child(3) { animation-delay: 0.15s; }
+    .unit-list li:nth-child(4) { animation-delay: 0.2s; }
 
     .unit-list li + li {
       margin-top: 10px;
@@ -240,7 +245,20 @@
       box-shadow: 0 0 0 1px rgba(168, 85, 247, 0.16);
     }
 
-    /* Panel derecha */
+    /* Unidad próxima (placeholder) */
+    .unit-link-disabled {
+      cursor: default;
+      opacity: 0.7;
+      background: #f9fafb;
+    }
+
+    .unit-link-disabled span.tag {
+      background: #e5e7eb;
+      color: #374151;
+      box-shadow: 0 0 0 1px rgba(156, 163, 175, 0.3);
+    }
+
+    /* Panel derecha: contenido inicial */
     .info-card {
       background: #ffffff;
       border-radius: 12px;
@@ -267,6 +285,7 @@
       margin-top: 4px;
     }
 
+    /* Panel derecha: notebook embebido */
     .detail-card {
       background: #ffffff;
       border-radius: 12px;
@@ -359,13 +378,14 @@
         <p class="section-text">
           En esta página se recopilan los reportes en formato notebook correspondientes a las unidades del curso
           <strong>Análisis de Algoritmos</strong>, desarrollados como parte de la Maestría en Ciencia de Datos e Información (INFOTEC).
+          La idea es que funcione como un pequeño portal web donde se pueden consultar los reportes completos directamente en el navegador.
         </p>
 
         <h2 id="unidades">Unidades publicadas</h2>
 
         <ul class="unit-list">
           <li>
-            <a class="unit-link" href="unidad2.html" target="_blank" rel="noopener">
+            <a class="unit-link" data-unit="u2" href="unidad2.html" target="_blank" rel="noopener">
               <div class="unit-text">
                 <span class="unit-title">Unidad 2: Experimentos y análisis de estructuras de datos.</span>
                 <span class="unit-desc">Complejidad temporal y notación asintótica aplicada a estructuras básicas.</span>
@@ -381,7 +401,7 @@
           </li>
 
           <li>
-            <a class="unit-link" href="unidad3.html" target="_blank" rel="noopener">
+            <a class="unit-link" data-unit="u3" href="unidad3.html" target="_blank" rel="noopener">
               <div class="unit-text">
                 <span class="unit-title">Unidad 3: Experimentos y análisis de algoritmos de ordenamiento.</span>
                 <span class="unit-desc">Comparación empírica de algoritmos clásicos de ordenamiento.</span>
@@ -397,7 +417,7 @@
           </li>
 
           <li>
-            <a class="unit-link" href="unidad4.html" target="_blank" rel="noopener">
+            <a class="unit-link" data-unit="u4" href="unidad4.html" target="_blank" rel="noopener">
               <div class="unit-text">
                 <span class="unit-title">Unidad 4: Experimentos y análisis de algoritmos de búsqueda por comparación.</span>
                 <span class="unit-desc">Análisis experimental de algoritmos de búsqueda sobre arreglos ordenados.</span>
@@ -410,6 +430,17 @@
               como <em>SkipList</em>, midiendo tiempos de ejecución y número de comparaciones bajo diferentes patrones de consultas.
               A partir de los resultados, se plantean conclusiones prácticas sobre qué enfoque conviene usar en distintos escenarios.
             </p>
+          </li>
+
+          <!-- Placeholder Unidad 5 -->
+          <li>
+            <div class="unit-link unit-link-disabled">
+              <div class="unit-text">
+                <span class="unit-title">Unidad 5: (en preparación)</span>
+                <span class="unit-desc">Contenido por publicar.</span>
+              </div>
+              <span class="tag">Próximamente</span>
+            </div>
           </li>
         </ul>
       </section>
@@ -433,7 +464,14 @@
         <!-- Notebook embebido (solo se muestra después de hacer clic) -->
         <div class="detail-card" id="notebook-card" style="display:none;">
           <div class="detail-actions">
-            <a id="detail-link" class="detail-link" href="#" target="_blank" rel="noopener">
+            <a
+              id="detail-link"
+              class="detail-link"
+              href="#"
+              target="_blank"
+              rel="noopener"
+              title="Abrir el notebook seleccionado en una nueva pestaña"
+            >
               Abrir notebook en otra pestaña
             </a>
           </div>
@@ -455,11 +493,34 @@
       const notebookFrame = document.getElementById("notebook-frame");
       const notebookCard = document.getElementById("notebook-card");
       const infoCard = document.getElementById("info-card");
-      const unitLinks = document.querySelectorAll(".unit-link");
+
+      // Solo los enlaces <a>, el placeholder de la U5 es un <div>
+      const unitLinks = document.querySelectorAll("a.unit-link");
 
       function setActive(link) {
         unitLinks.forEach((l) => l.classList.remove("active"));
-        link.classList.add("active");
+        if (link) {
+          link.classList.add("active");
+        }
+      }
+
+      function showUnit(link) {
+        const href = link.getAttribute("href");
+        const unitId = link.dataset.unit;
+
+        detailLink.href = href;
+        notebookFrame.src = href;
+
+        setActive(link);
+        notebookCard.style.display = "block";
+        if (infoCard) {
+          infoCard.style.display = "none";
+        }
+
+        // Actualizar el hash de la URL (u2, u3, u4...)
+        if (unitId) {
+          window.history.replaceState(null, "", "#" + unitId);
+        }
       }
 
       unitLinks.forEach((link) => {
@@ -470,23 +531,21 @@
           }
 
           e.preventDefault();
-
-          const href = link.getAttribute("href");
-          detailLink.href = href;
-          notebookFrame.src = href;
-
-          setActive(link);
-
-          // Mostrar notebook y ocultar tarjeta de información
-          notebookCard.style.display = "block";
-          if (infoCard) {
-            infoCard.style.display = "none";
-          }
+          showUnit(link);
         });
       });
 
-      // Nota: ya NO seleccionamos ninguna unidad al cargar.
-      // El usuario debe hacer clic para que aparezca el reporte.
+      // Deep link: si viene con #u2, #u3, #u4, abrir esa unidad
+      const hash = window.location.hash.slice(1); // sin '#'
+      if (hash) {
+        const link = document.querySelector(`a.unit-link[data-unit="${hash}"]`);
+        if (link) {
+          showUnit(link);
+          // Opcional: centrar la unidad seleccionada en la vista
+          link.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
+      }
+      // Si no hay hash, no seleccionamos nada: se queda el índice inicial.
     });
   </script>
 </body>
