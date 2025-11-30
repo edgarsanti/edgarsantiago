@@ -85,7 +85,7 @@
 
     .layout {
       display: grid;
-      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1.8fr); /* izquierda más compacta, derecha más grande */
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1.8fr);
       gap: 32px;
     }
 
@@ -219,9 +219,8 @@
       color: var(--muted);
     }
 
-    /* Resúmenes: solo para JS (no se muestran en la columna izquierda) */
     .unit-summary {
-      display: none;
+      display: none; /* se usa solo para el panel derecho */
     }
 
     .unit-link span.tag {
@@ -241,7 +240,7 @@
       box-shadow: 0 0 0 1px rgba(168, 85, 247, 0.16);
     }
 
-    /* Panel de detalle a la derecha */
+    /* Panel detalle derecha */
     .detail-card {
       background: #ffffff;
       border-radius: 12px;
@@ -331,34 +330,6 @@
       color: var(--accent);
     }
 
-    .side-card {
-      background: #ffffff;
-      border-radius: 10px;
-      border: 1px solid var(--border);
-      padding: 10px 12px;
-      margin-top: 12px;
-      font-size: 0.85rem;
-      line-height: 1.4;
-      box-shadow: 0 2px 6px rgba(148, 163, 184, 0.25);
-      animation: fadeInUp 0.35s ease-out;
-      animation-delay: 0.12s;
-      animation-fill-mode: both;
-    }
-
-    .side-card strong {
-      display: block;
-      margin-bottom: 2px;
-    }
-
-    .side-card a {
-      color: var(--accent);
-      text-decoration: none;
-    }
-
-    .side-card a:hover {
-      text-decoration: underline;
-    }
-
     footer {
       border-top: 1px solid rgba(209, 213, 219, 0.8);
       padding: 10px 0;
@@ -380,13 +351,14 @@
       <nav>
         <a href="#sobre-mi">Sobre esta página</a>
         <a href="#unidades">Unidades</a>
+        <a href="https://github.com/edgarsanti/edgarsantiago" target="_blank" rel="noopener">Repositorio</a>
       </nav>
     </div>
   </header>
 
   <main class="container">
     <div class="layout">
-      <!-- COLUMNA IZQUIERDA -->
+      <!-- IZQUIERDA -->
       <section id="sobre-mi">
         <h1>Reportes del curso</h1>
 
@@ -456,13 +428,11 @@
               A partir de los resultados, se plantean conclusiones prácticas sobre qué enfoque conviene usar en distintos escenarios.
             </p>
           </li>
-          <!-- Cuando tengas más unidades, agrega más <li> con su resumen -->
         </ul>
       </section>
 
-      <!-- COLUMNA DERECHA -->
+      <!-- DERECHA -->
       <aside>
-        <!-- Panel dinámico de contenido -->
         <div class="detail-card" id="unit-detail">
           <h2 class="detail-title" id="detail-title">Selecciona una unidad</h2>
           <p class="detail-desc" id="detail-desc"></p>
@@ -481,14 +451,6 @@
             <li><a href="#unidades">Unidades publicadas</a></li>
           </ul>
         </div>
-
-        <div class="side-card">
-          <strong>Repositorio en GitHub</strong>
-          Código fuente y notebooks disponibles en:<br />
-          <a href="https://github.com/edgarsanti/edgarsantiago" target="_blank" rel="noopener">
-            github.com/edgarsanti/edgarsantiago
-          </a>
-        </div>
       </aside>
     </div>
   </main>
@@ -500,7 +462,6 @@
   </footer>
 
   <script>
-    // Hace que al dar clic en una unidad, se actualice el contenido del panel derecho
     document.addEventListener("DOMContentLoaded", function () {
       const detailTitle = document.getElementById("detail-title");
       const detailDesc = document.getElementById("detail-desc");
@@ -515,7 +476,7 @@
 
       unitLinks.forEach((link) => {
         link.addEventListener("click", function (e) {
-          // Si el usuario presiona Ctrl/Cmd, dejamos que abra en nueva pestaña normal
+          // Si usa Ctrl/Cmd/Shift, que se abra normal en nueva pestaña
           if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) {
             return;
           }
@@ -536,7 +497,6 @@
         });
       });
 
-      // Inicializar con la primera unidad seleccionada
       if (unitLinks.length > 0) {
         unitLinks[0].click();
       }
