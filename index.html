@@ -230,7 +230,7 @@
       box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.12);
     }
 
-    /* Colores distintos para cada badge si quieres más “vida” */
+    /* Badge distinto en la segunda unidad para más vida */
     .unit-list li:nth-child(2) .unit-link span.tag {
       background: var(--accent-2-soft);
       color: var(--accent-2);
@@ -357,14 +357,15 @@
             <a class="unit-link" href="unidad2.html" target="_blank" rel="noopener">
               <div class="unit-text">
                 <span class="unit-title">Unidad 2: Experimentos y análisis de estructuras de datos.</span>
-                <span class="unit-desc">Complejidad temporal y notación asintótica.</span>
+                <span class="unit-desc">Complejidad temporal y notación asintótica aplicada a estructuras básicas.</span>
               </div>
               <span class="tag">Notebook</span>
             </a>
             <p class="unit-summary">
               Se introduce el marco formal para analizar algoritmos: tiempo de ejecución como función del tamaño de entrada,
               notaciones O, Ω y Θ, y la comparación de órdenes de crecimiento mediante ejemplos numéricos. También se discuten
-              los casos mejor, peor y promedio en algoritmos sencillos como la búsqueda lineal.
+              los casos mejor, peor y promedio en algoritmos sencillos, preparando el terreno para analizar estructuras y
+              operaciones más complejas.
             </p>
           </li>
 
@@ -372,14 +373,15 @@
             <a class="unit-link" href="unidad3.html" target="_blank" rel="noopener">
               <div class="unit-text">
                 <span class="unit-title">Unidad 3: Experimentos y análisis de algoritmos de ordenamiento.</span>
-                <span class="unit-desc">Estructuras y algoritmos de búsqueda.</span>
+                <span class="unit-desc">Comparación empírica de algoritmos clásicos de ordenamiento.</span>
               </div>
               <span class="tag">Notebook</span>
             </a>
             <p class="unit-summary">
-              El reporte plantea el problema de búsqueda en arreglos estáticos ordenados y presenta distintas variantes de
-              búsqueda binaria (B0, B1, B2) y estructuras como <em>SkipList</em>. Se describen sus ideas básicas, se analiza
-              el número de comparaciones y se muestra cómo cambia el costo según la posición del elemento buscado.
+              El reporte estudia distintos algoritmos de ordenamiento (por ejemplo, enfoques cuadráticos frente a métodos más eficientes)
+              y compara su comportamiento en términos de tiempo de ejecución y número de operaciones. Se ilustra cómo la complejidad
+              teórica se refleja en los tiempos medidos para distintos tamaños de entrada y se discuten los escenarios en los que
+              cada algoritmo resulta más conveniente.
             </p>
           </li>
 
@@ -387,15 +389,15 @@
             <a class="unit-link" href="unidad4.html" target="_blank" rel="noopener">
               <div class="unit-text">
                 <span class="unit-title">Unidad 4: Experimentos y análisis de algoritmos de búsqueda por comparación.</span>
-                <span class="unit-desc">Análisis experimental de algoritmos.</span>
+                <span class="unit-desc">Análisis experimental de algoritmos de búsqueda sobre arreglos ordenados.</span>
               </div>
               <span class="tag">Notebook</span>
             </a>
             <p class="unit-summary">
-              Se diseña y ejecuta un experimento computacional en Python para comparar empíricamente las estrategias de búsqueda
-              estudiadas. Se generan diferentes familias de listas y consultas, se miden tiempos de ejecución y comparaciones,
-              se resumen los resultados con tablas y boxplots y se discuten conclusiones prácticas sobre qué algoritmo conviene
-              usar en distintos escenarios.
+              Se diseña y ejecuta un experimento computacional en Python para comparar empíricamente distintas estrategias de
+              búsqueda por comparación sobre arreglos estáticos ordenados. Se estudian variantes de búsqueda binaria y estructuras
+              como <em>SkipList</em>, midiendo tiempos de ejecución y número de comparaciones bajo diferentes patrones de consultas.
+              A partir de los resultados, se plantean conclusiones prácticas sobre qué enfoque conviene usar en distintos escenarios.
             </p>
           </li>
           <!-- Cuando tengas más unidades, agrega más <li> con su resumen -->
