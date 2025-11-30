@@ -4,53 +4,90 @@
   <meta charset="UTF-8" />
   <title>Reportes del curso – Análisis de Algoritmos</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+
   <style>
+    /* 
+      ===============================
+      VARIABLES DE TEMA (COLORES)
+      ===============================
+      Aquí definimos "variables" CSS para los colores.
+      Si cambias algo en :root, se actualiza en todo el sitio.
+    */
     :root {
-      --bg: #f3f4f6;
-      --text: #111827;
-      --muted: #6b7280;
-      --border: #d1d5db;
-      --accent: #2563eb;
-      --accent-soft: #dbeafe;
-      --accent-2: #a855f7;
-      --accent-2-soft: #f3e8ff;
+      --bg: #f3f4f6;      /* Color base de fondo (gris muy claro) */
+      --text: #111827;    /* Color de texto principal (gris muy oscuro) */
+      --muted: #6b7280;   /* Texto secundario / descripciones */
+      --border: #d1d5db;  /* Color base para bordes suaves */
+
+      /* Tema TEAL (verde petróleo) en vez de azul */
+      --accent: #327c80;        /* Color principal: se usa en bordes, botones, etc. */
+      --accent-soft: #d3f1f2;   /* Versión clarita del color principal */
+
+      /* Color secundario (otro tono de teal) para detalles */
+      --accent-2: #0f766e;
+      --accent-2-soft: #ccfbf1;
     }
 
+    /* 
+      Quitamos comportamiento raro de box-sizing
+      y lo unificamos en toda la página.
+    */
     * {
       box-sizing: border-box;
     }
 
+    /* 
+      Suaviza el desplazamiento cuando haces clic en anclas (#unidades, etc.)
+    */
     html {
       scroll-behavior: smooth;
     }
+
+    /* 
+      Estilos generales del <body>:
+      - fuente
+      - fondo
+      - color de texto
+    */
     body {
       margin: 0;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
         sans-serif;
-      background: linear-gradient(135deg, #bfdbfe 0%, #dbeafe 40%, #eff6ff 100%);
+      /* Fondo con degradado suave en tonos teal / gris */
+      background: radial-gradient(circle at top left, #cdeff1 0, #f3f4f6 40%, #f9fafb 100%);
       color: var(--text);
-      }
+    }
+
+    /* Contenedor central que limita el ancho máximo de la página */
     .container {
-      max-width: 1360px;
-      margin: 0 auto;
-      padding: 0 8px; /* menos margen lateral para aprovechar más ancho */
+      max-width: 1360px; /* ancho máximo */
+      margin: 0 auto;    /* centrado horizontal */
+      padding: 0 8px;    /* pequeño margen lateral */
     }
 
+    /* 
+      Encabezado superior (barra azul/teal).
+      Contiene el título "Edgar Santiago · Análisis de Algoritmos"
+      y el menú de navegación.
+    */
     header {
-      background: linear-gradient(90deg, #4f46e5, #2563eb, #0ea5e9);
+      /* Degradado en tonos teal */
+      background: linear-gradient(90deg, #145055, #327c80, #38a3a5);
       color: #f9fafb;
-      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.2);
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.2); /* sombrita hacia abajo */
     }
 
+    /* Contenido interno del header (logo + nav) */
     .header-inner {
       display: flex;
-      align-items: center;
-      justify-content: space-between;
+      align-items: center;       /* centrado vertical */
+      justify-content: space-between; /* espacio entre marca y menú */
       padding: 14px 0;
-      gap: 12px;
-      flex-wrap: wrap;
+      gap: 12px;                 /* espacio si se hace wrap */
+      flex-wrap: wrap;           /* permite que en pantallas pequeñas se acomode en dos filas */
     }
 
+    /* Texto “Edgar Santiago · Análisis de Algoritmos” */
     .brand {
       font-weight: 600;
       font-size: 1rem;
@@ -61,13 +98,14 @@
       font-weight: 400;
     }
 
+    /* Links del menú del header */
     nav a {
       margin-left: 16px;
       text-decoration: none;
       font-size: 0.9rem;
       color: #e5e7eb;
       padding: 4px 0;
-      border-bottom: 2px solid transparent;
+      border-bottom: 2px solid transparent; /* para efecto hover */
       transition:
         border-color 0.15s ease,
         color 0.15s ease,
@@ -81,16 +119,23 @@
       opacity: 1;
     }
 
+    /* Margen superior/inferior del contenido principal */
     main {
       padding: 24px 0 40px;
     }
 
+    /* 
+      Layout principal:
+      - Una columna pequeña izquierda (300px)
+      - Una columna flexible derecha (resto del ancho)
+    */
     .layout {
       display: grid;
-      grid-template-columns: 300px minmax(0, 1fr); /* izquierda más delgada, derecha más ancha */
-      gap: 24px; /* un poco menos espacio entre columnas */
+      grid-template-columns: 300px minmax(0, 1fr);
+      gap: 24px; /* espacio entre izquierda y derecha */
     }
 
+    /* Animación suave de aparición hacia arriba */
     @keyframes fadeInUp {
       from {
         opacity: 0;
@@ -102,6 +147,10 @@
       }
     }
 
+    /* 
+      Vista responsiva:
+      Si la pantalla es menor a 900px, ponemos todo en una sola columna.
+    */
     @media (max-width: 900px) {
       .layout {
         grid-template-columns: minmax(0, 1fr);
@@ -111,17 +160,23 @@
       }
     }
 
+    /* Título principal “Reportes del curso” */
     h1 {
       font-size: 1.7rem;
       margin: 0 0 12px;
       animation: fadeInUp 0.35s ease-out;
     }
 
+    /* Subtítulos “Unidades publicadas”, etc. */
     h2 {
       font-size: 1.2rem;
       margin: 24px 0 8px;
     }
 
+    /* 
+      Tarjetas con información de institución, estudiante, etc.
+      Borde izquierdo con color de acento.
+    */
     .meta-block {
       border-left: 4px solid var(--accent);
       background: #ffffff;
@@ -132,6 +187,7 @@
       animation: fadeInUp 0.35s ease-out;
     }
 
+    /* Segunda tarjeta (estudiante/profesor) usa el color secundario */
     .meta-block:nth-of-type(2) {
       border-left-color: var(--accent-2);
     }
@@ -142,9 +198,10 @@
     }
 
     .meta-label {
-      font-weight: 600;
+      font-weight: 600; /* “Institución:”, “Programa:”, etc. */
     }
 
+    /* Párrafo de introducción a la página */
     .section-text {
       font-size: 0.95rem;
       color: var(--muted);
@@ -155,8 +212,9 @@
       animation-fill-mode: both;
     }
 
+    /* Lista de unidades publicadas (lado izquierdo) */
     .unit-list {
-      list-style: none;
+      list-style: none; /* sin viñetas */
       margin: 12px 0 0;
       padding: 0;
     }
@@ -166,16 +224,22 @@
       animation-fill-mode: both;
     }
 
+    /* Pequeño delay escalonado para que las tarjetas salgan una tras otra */
     .unit-list li:nth-child(1) { animation-delay: 0.03s; }
     .unit-list li:nth-child(2) { animation-delay: 0.06s; }
     .unit-list li:nth-child(3) { animation-delay: 0.09s; }
     .unit-list li:nth-child(4) { animation-delay: 0.12s; }
     .unit-list li:nth-child(5) { animation-delay: 0.15s; }
 
+    /* Separación vertical entre tarjetas de unidades */
     .unit-list li + li {
       margin-top: 10px;
     }
 
+    /* 
+      Tarjeta clicable de cada unidad.
+      Es un <a> pero estilizado como card.
+    */
     .unit-link {
       display: flex;
       justify-content: space-between;
@@ -195,19 +259,22 @@
       cursor: pointer;
     }
 
+    /* Efecto hover al pasar el mouse por encima de una unidad */
     .unit-link:hover {
-      background: linear-gradient(90deg, #eff6ff, #f3e8ff);
+      background: linear-gradient(90deg, #e0f7f9, #f0fdfa);
       border-color: var(--accent);
       transform: translateY(-1px);
       box-shadow: 0 4px 10px rgba(148, 163, 184, 0.5);
     }
 
+    /* Estado activo (unidad seleccionada) */
     .unit-link.active {
       border-color: var(--accent);
-      box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.35);
-      background: linear-gradient(90deg, #eff6ff, #f3e8ff);
+      box-shadow: 0 0 0 1px rgba(50, 124, 128, 0.35);
+      background: linear-gradient(90deg, #e0f7f9, #f0fdfa);
     }
 
+    /* Contenedor interno del título + descripción corta en la tarjeta */
     .unit-text {
       display: flex;
       flex-direction: column;
@@ -223,10 +290,12 @@
       color: var(--muted);
     }
 
+    /* No lo usamos por ahora, pero podría servir si quisieras mostrar más texto */
     .unit-summary {
       display: none;
     }
 
+    /* “Chip” de la derecha (Notebook / Próximamente) */
     .unit-link span.tag {
       font-size: 0.75rem;
       padding: 3px 10px;
@@ -235,16 +304,21 @@
       color: var(--accent);
       font-weight: 500;
       white-space: nowrap;
-      box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.12);
+      box-shadow: 0 0 0 1px rgba(50, 124, 128, 0.18);
     }
 
+    /* Segunda unidad (u2) usa el color secundario en el chip */
     .unit-list li:nth-child(2) .unit-link span.tag {
       background: var(--accent-2-soft);
       color: var(--accent-2);
-      box-shadow: 0 0 0 1px rgba(168, 85, 247, 0.16);
+      box-shadow: 0 0 0 1px rgba(15, 118, 110, 0.2);
     }
 
-    /* Unidad próxima (placeholder) */
+    /* 
+      Unidad “Próximamente”:
+      - No es clicable
+      - Tiene estilo un poco más apagado
+    */
     .unit-link-disabled {
       cursor: default;
       opacity: 0.7;
@@ -257,7 +331,10 @@
       box-shadow: 0 0 0 1px rgba(156, 163, 175, 0.3);
     }
 
-    /* Panel derecha: contenido inicial */
+    /* 
+      Tarjeta de información inicial en el panel derecho
+      (se muestra cuando no se ha seleccionado ninguna unidad).
+    */
     .info-card {
       background: #ffffff;
       border-radius: 12px;
@@ -284,7 +361,10 @@
       margin-top: 4px;
     }
 
-    /* Panel derecha: notebook embebido */
+    /* 
+      Tarjeta que contiene el botón + iframe (panel derecho)
+      donde se carga el notebook completo.
+    */
     .detail-card {
       background: #ffffff;
       border-radius: 12px;
@@ -295,12 +375,14 @@
       animation: fadeInUp 0.35s ease-out;
     }
 
+    /* Contenedor del botón “Abrir notebook en otra pestaña” */
     .detail-actions {
       display: flex;
       justify-content: flex-start;
       margin-bottom: 8px;
     }
 
+    /* Estilo del botón para abrir en pestaña nueva */
     .detail-link {
       display: inline-block;
       font-size: 0.85rem;
@@ -309,8 +391,8 @@
       border-radius: 999px;
       border: 1px solid var(--accent);
       color: #ffffff;
-      background: linear-gradient(90deg, #2563eb, #4f46e5);
-      box-shadow: 0 2px 6px rgba(37, 99, 235, 0.45);
+      background: linear-gradient(90deg, #145055, #327c80);
+      box-shadow: 0 2px 6px rgba(50, 124, 128, 0.45);
       transition:
         transform 0.1s ease,
         box-shadow 0.1s ease,
@@ -319,18 +401,23 @@
 
     .detail-link:hover {
       transform: translateY(-1px);
-      box-shadow: 0 3px 8px rgba(37, 99, 235, 0.6);
+      box-shadow: 0 3px 8px rgba(50, 124, 128, 0.6);
       opacity: 0.95;
     }
 
+    /* 
+      Iframe donde mostramos el notebook (unidad2.html, etc.).
+      El min-height lo pusiste en 150vh para que se vea largo.
+    */
     #notebook-frame {
       width: 100%;
       border: none;
       border-radius: 8px;
       background: #f9fafb;
-      min-height: 150vh; /* más alto para ocupar casi toda la pantalla */
+      min-height: 150vh;
     }
 
+    /* Pie de página simple con texto alineado a la derecha */
     footer {
       border-top: 1px solid rgba(209, 213, 219, 0.8);
       padding: 10px 0;
@@ -339,16 +426,25 @@
       text-align: right;
       background: rgba(249, 250, 251, 0.94);
       margin-top: 16px;
-      backdrop-filter: blur(4px);
+      backdrop-filter: blur(4px); /* efecto de vidrio ligero */
     }
   </style>
 </head>
+
 <body>
+  <!-- 
+    ===============================
+    HEADER (barra superior)
+    ===============================
+  -->
   <header>
     <div class="container header-inner">
+      <!-- "Logo" / marca -->
       <div class="brand">
         Edgar Santiago <span>· Análisis de Algoritmos</span>
       </div>
+
+      <!-- Menú de navegación con anclas internas y enlace al repo -->
       <nav>
         <a href="#sobre-mi">Sobre esta página</a>
         <a href="#unidades">Unidades</a>
@@ -357,31 +453,50 @@
     </div>
   </header>
 
+  <!-- 
+    ===============================
+    CONTENIDO PRINCIPAL
+    ===============================
+  -->
   <main class="container">
     <div class="layout">
-      <!-- IZQUIERDA -->
+      <!-- 
+        COLUMNA IZQUIERDA
+        - Información del curso
+        - Lista de unidades
+      -->
       <section id="sobre-mi">
         <h1>Reportes del curso</h1>
 
+        <!-- Tarjeta de institución / programa / materia -->
         <div class="meta-block">
           <p><span class="meta-label">Institución:</span> INFOTEC – Centro de Investigación e Innovación en Tecnologías de la Información y Comunicación</p>
           <p><span class="meta-label">Programa:</span> Maestría en Ciencia de Datos e Información</p>
           <p><span class="meta-label">Materia:</span> Análisis de Algoritmos</p>
         </div>
 
+        <!-- Tarjeta de estudiante / profesor -->
         <div class="meta-block">
           <p><span class="meta-label">Estudiante:</span> Edgar Santiago González Martínez</p>
           <p><span class="meta-label">Profesor:</span> Dr. Eric Sadit Téllez Ávila</p>
         </div>
 
+        <!-- Párrafo introductorio -->
         <p class="section-text">
           En esta página se recopilan los reportes en formato notebook correspondientes a las unidades del curso
           <strong>Análisis de Algoritmos</strong>, desarrollados como parte de la Maestría en Ciencia de Datos e Información (INFOTEC).
           La idea es que funcione como un pequeño portal web donde se pueden consultar los reportes completos directamente en el navegador.
         </p>
 
+        <!-- Encabezado de la lista de unidades -->
         <h2 id="unidades">Unidades publicadas</h2>
 
+        <!-- 
+          Lista de unidades.
+          Cada <a> tiene:
+          - data-unit="uX" para manejar el hash (#u2, #u3, etc.)
+          - href="unidadX.html" que se abre en nueva pestaña con Ctrl+click
+        -->
         <ul class="unit-list">
           <!-- Unidad 1 -->
           <li>
@@ -427,7 +542,7 @@
             </a>
           </li>
 
-          <!-- Unidad 5 (próximamente) -->
+          <!-- Unidad 5 (próximamente, sin enlace) -->
           <li>
             <div class="unit-link unit-link-disabled">
               <div class="unit-text">
@@ -440,9 +555,13 @@
         </ul>
       </section>
 
-      <!-- DERECHA -->
+      <!-- 
+        COLUMNA DERECHA
+        - Mensaje inicial con índice de temas
+        - Panel con notebook embebido (iframe)
+      -->
       <aside>
-        <!-- Mensaje inicial / índice -->
+        <!-- Tarjeta que se muestra mientras no se ha elegido ninguna unidad -->
         <div class="info-card" id="info-card">
           <h3>Contenido de los reportes</h3>
           <p>
@@ -458,9 +577,10 @@
           </ul>
         </div>
 
-        <!-- Notebook embebido -->
+        <!-- Tarjeta que contiene el botón + iframe (se oculta al inicio) -->
         <div class="detail-card" id="notebook-card" style="display:none;">
           <div class="detail-actions">
+            <!-- Botón para abrir el notebook en una nueva pestaña -->
             <a
               id="detail-link"
               class="detail-link"
@@ -472,27 +592,44 @@
               Abrir notebook en otra pestaña
             </a>
           </div>
+          <!-- Iframe donde se incrusta la página unidadX.html -->
           <iframe id="notebook-frame" src="" title="Notebook del curso"></iframe>
         </div>
       </aside>
     </div>
   </main>
 
+  <!-- Pie de página -->
   <footer>
     <div class="container">
       © 2025 · edgarsanti · GitHub Pages
     </div>
   </footer>
 
+  <!-- 
+    ===============================
+    JAVASCRIPT
+    ===============================
+    Maneja:
+    - cuál unidad está activa
+    - actualizar el iframe
+    - ocultar/mostrar info-card
+    - actualizar el hash (#u2, #u3, etc.)
+  -->
   <script>
     document.addEventListener("DOMContentLoaded", function () {
-      const detailLink = document.getElementById("detail-link");
-      const notebookFrame = document.getElementById("notebook-frame");
-      const notebookCard = document.getElementById("notebook-card");
-      const infoCard = document.getElementById("info-card");
+      const detailLink   = document.getElementById("detail-link");   // enlace "Abrir notebook..."
+      const notebookFrame = document.getElementById("notebook-frame"); // iframe donde se ve el reporte
+      const notebookCard = document.getElementById("notebook-card"); // tarjeta que contiene el iframe
+      const infoCard     = document.getElementById("info-card");     // tarjeta inicial con índice
 
+      // Todos los links de unidades (u1, u2, u3, u4)
       const unitLinks = document.querySelectorAll("a.unit-link");
 
+      /* 
+        Quita la clase 'active' de todas las unidades
+        y la agrega solo a la que pasamos como argumento.
+      */
       function setActive(link) {
         unitLinks.forEach((l) => l.classList.remove("active"));
         if (link) {
@@ -500,35 +637,61 @@
         }
       }
 
+      /* 
+        Muestra una unidad:
+        - carga la URL del href en el iframe
+        - actualiza el botón "Abrir notebook en otra pestaña"
+        - marca la unidad como activa
+        - esconde la tarjeta info-card
+        - actualiza el hash (#u1, #u2, etc.)
+      */
       function showUnit(link) {
-        const href = link.getAttribute("href");
-        const unitId = link.dataset.unit;
+        const href   = link.getAttribute("href");  // por ej. "unidad2.html"
+        const unitId = link.dataset.unit;          // por ej. "u2"
 
+        // el botón abre la misma URL en pestaña nueva
         detailLink.href = href;
+
+        // el iframe carga el notebook
         notebookFrame.src = href;
 
+        // marcamos en azul/teal la unidad activa
         setActive(link);
+
+        // mostramos el panel de notebook y ocultamos el mensaje inicial
         notebookCard.style.display = "block";
         if (infoCard) {
           infoCard.style.display = "none";
         }
 
+        // actualizamos la URL (para poder compartir /#u3, por ejemplo)
         if (unitId) {
           window.history.replaceState(null, "", "#" + unitId);
         }
       }
 
+      /* 
+        Para cada link de unidad:
+        - evitamos que navegue de inmediato
+        - usamos showUnit(link) para manejar todo
+        - si el usuario usa Ctrl+click o Cmd+click, lo dejamos abrir en nueva pestaña
+      */
       unitLinks.forEach((link) => {
         link.addEventListener("click", function (e) {
+          // Si el usuario usa combinaciones para abrir en pestaña nueva, dejamos el comportamiento normal
           if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) {
             return;
           }
-          e.preventDefault();
-          showUnit(link);
+          e.preventDefault(); // evitamos la navegación estándar
+          showUnit(link);     // cargamos la unidad en el iframe
         });
       });
 
-      const hash = window.location.hash.slice(1);
+      /* 
+        Soporte para hashes en la URL:
+        - Si entramos a /index.html#u3, automáticamente selecciona la unidad 3.
+      */
+      const hash = window.location.hash.slice(1); // quitamos el "#"
       if (hash) {
         const link = document.querySelector(`a.unit-link[data-unit="${hash}"]`);
         if (link) {
