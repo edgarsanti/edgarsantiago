@@ -249,6 +249,7 @@
       box-shadow: 0 0 0 1px rgba(15, 118, 110, 0.2);
     }
 
+    /* (Ya no usamos disabled, pero lo dejamos por si algún día reactivas un “próximamente”) */
     .unit-link-disabled {
       cursor: default;
       opacity: 0.7;
@@ -402,15 +403,15 @@
             </a>
           </li>
 
-          <!-- Unidad 5 (próximamente) -->
+          <!-- Unidad 5 -->
           <li>
-            <div class="unit-link unit-link-disabled">
+            <a class="unit-link" data-unit="u5" href="unidad5.html" target="_blank" rel="noopener">
               <div class="unit-text">
                 <span class="unit-title">Unidad 5: Experimentos y análisis de algoritmos de intersección de conjuntos.</span>
                 <span class="unit-desc">Diseño y comparación de estrategias para resolver el problema de intersección de conjuntos.</span>
               </div>
-              <span class="tag">Próximamente</span>
-            </div>
+              <span class="tag">Notebook</span>
+            </a>
           </li>
         </ul>
       </section>
@@ -482,7 +483,7 @@
         });
       });
 
-      // Al cargar: si hay hash (#u2, #u3...) usarlo; si no, Unidad 1
+      // Al cargar: si hay hash (#u2, #u3, #u4, #u5...) usarlo; si no, Unidad 1
       const hash = window.location.hash.slice(1);
       if (hash) {
         const link = document.querySelector(`a.unit-link[data-unit="${hash}"]`);
